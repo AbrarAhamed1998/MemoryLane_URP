@@ -25,7 +25,8 @@ public class CustomCharacterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+		Cursor.lockState = CursorLockMode.Locked;
+		Cursor.visible = false;
     }
 
     // Update is called once per frame
@@ -37,6 +38,10 @@ public class CustomCharacterController : MonoBehaviour
 
 		Rotation();
 
+		if(Input.GetKeyDown(KeyCode.Escape))
+		{
+			ToggleCursorLockStateAndVisibility();
+		}
 		/*if (Input.GetKeyDown(KeyCode.Space))
 		{
 			startJump = true;
@@ -81,20 +86,38 @@ public class CustomCharacterController : MonoBehaviour
 
 	private void Rotation()
 	{
-		xRot += Input.GetAxis("Mouse X") * rotSpeed;
-		if(xRot <= -180)
+		if(!Cursor.visible)
 		{
-			xRot += 360;
-		}
-		else if(xRot > 180)
-		{
-			xRot -= 360;
-		}
-		yRot -= Input.GetAxis("Mouse Y") * (rotSpeed/2);
+			xRot += Input.GetAxis("Mouse X") * rotSpeed;
+			if (xRot <= -180)
+			{
+				xRot += 360;
+			}
+			else if (xRot > 180)
+			{
+				xRot -= 360;
+			}
+			yRot -= Input.GetAxis("Mouse Y") * (rotSpeed / 2);
 
-		Camera.main.transform.localRotation = Quaternion.Euler(yRot, 0f, 0f);
-		transform.localRotation = Quaternion.Euler(0f, xRot, 0f);
+			Camera.main.transform.localRotation = Quaternion.Euler(yRot, 0f, 0f);
+			transform.localRotation = Quaternion.Euler(0f, xRot, 0f);
+		}
 		
+		
+	}
+
+	public void ToggleCursorLockStateAndVisibility()
+	{
+		if(Cursor.lockState == CursorLockMode.Locked)
+		{
+			Cursor.lockState = CursorLockMode.None;
+			Cursor.visible = true;
+		}
+		else
+		{
+			Cursor.lockState = CursorLockMode.Locked;
+			Cursor.visible = false;
+		}
 	}
 
 
