@@ -133,8 +133,8 @@ public class CharacterMovement : MonoBehaviour
         rotation.y += lookValues.x;
         rotation.x += -lookValues.y;
         rotation.x = Mathf.Clamp(rotation.x, -75, 75);
-        Camera.main.transform.rotation = Quaternion.Slerp(Camera.main.transform.rotation, Quaternion.Euler(rotation), rotSensitivity * Time.deltaTime);;
-        transform.rotation = Quaternion.Slerp(transform.rotation , Quaternion.Euler(0f, rotation.y, 0f), rotSensitivity * Time.deltaTime);
+        Camera.main.transform.rotation = Quaternion.Lerp(Camera.main.transform.rotation, Quaternion.Euler(rotation), rotSensitivity * Time.deltaTime);;
+        transform.rotation = Quaternion.Lerp(transform.rotation , Quaternion.Euler(0f, rotation.y, 0f), rotSensitivity * Time.deltaTime);
 	}
 
     void CatchMovement(InputAction.CallbackContext ctx)
