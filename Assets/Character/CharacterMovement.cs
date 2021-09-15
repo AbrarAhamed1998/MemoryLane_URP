@@ -39,6 +39,9 @@ public class CharacterMovement : MonoBehaviour
 
         playerInput.CharacterControls.Run.performed += ctx => runPressed = ctx.ReadValueAsButton();
         playerInput.CharacterControls.Look.performed += ctx => lookValues = ctx.ReadValue<Vector2>();
+
+        //By default on launch pickupobj is disabled
+        playerInput.CharacterControls.PickupObj.Disable();
 	}
 	// Start is called before the first frame update
 	void Start()
@@ -148,12 +151,22 @@ public class CharacterMovement : MonoBehaviour
         if(charController.isGrounded)
 		{
             movementControllerValues.y = -0.05f;
-            Debug.Log("Gravity Applied");
+            //Debug.Log("Gravity Applied");
 		}
         else
 		{
             movementControllerValues.y = -9.81f;
         }
         
+	}
+
+    public void EnablePickupAction()
+	{
+        playerInput.CharacterControls.PickupObj.Enable();
+	}
+
+    public void DisablePickupAction()
+	{
+        playerInput.CharacterControls.PickupObj.Disable();
 	}
 }
