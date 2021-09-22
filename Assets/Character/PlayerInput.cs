@@ -49,6 +49,22 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""PhoneControlLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""5bdcb03d-cffe-42e3-b228-0d822a0289da"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""PhoneControlRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""6181da2c-7c8f-40c6-9e98-044dbf8fb3d0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -172,6 +188,28 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""action"": ""PickupObj"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""86209b54-100d-4323-8da3-765fa350d3e6"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PhoneControlLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f50348fe-dc6b-418b-8457-ecbaf70193b1"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PhoneControlRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -184,6 +222,8 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         m_CharacterControls_Run = m_CharacterControls.FindAction("Run", throwIfNotFound: true);
         m_CharacterControls_Look = m_CharacterControls.FindAction("Look", throwIfNotFound: true);
         m_CharacterControls_PickupObj = m_CharacterControls.FindAction("PickupObj", throwIfNotFound: true);
+        m_CharacterControls_PhoneControlLeft = m_CharacterControls.FindAction("PhoneControlLeft", throwIfNotFound: true);
+        m_CharacterControls_PhoneControlRight = m_CharacterControls.FindAction("PhoneControlRight", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -237,6 +277,8 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     private readonly InputAction m_CharacterControls_Run;
     private readonly InputAction m_CharacterControls_Look;
     private readonly InputAction m_CharacterControls_PickupObj;
+    private readonly InputAction m_CharacterControls_PhoneControlLeft;
+    private readonly InputAction m_CharacterControls_PhoneControlRight;
     public struct CharacterControlsActions
     {
         private @PlayerInput m_Wrapper;
@@ -245,6 +287,8 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         public InputAction @Run => m_Wrapper.m_CharacterControls_Run;
         public InputAction @Look => m_Wrapper.m_CharacterControls_Look;
         public InputAction @PickupObj => m_Wrapper.m_CharacterControls_PickupObj;
+        public InputAction @PhoneControlLeft => m_Wrapper.m_CharacterControls_PhoneControlLeft;
+        public InputAction @PhoneControlRight => m_Wrapper.m_CharacterControls_PhoneControlRight;
         public InputActionMap Get() { return m_Wrapper.m_CharacterControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -266,6 +310,12 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @PickupObj.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnPickupObj;
                 @PickupObj.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnPickupObj;
                 @PickupObj.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnPickupObj;
+                @PhoneControlLeft.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnPhoneControlLeft;
+                @PhoneControlLeft.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnPhoneControlLeft;
+                @PhoneControlLeft.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnPhoneControlLeft;
+                @PhoneControlRight.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnPhoneControlRight;
+                @PhoneControlRight.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnPhoneControlRight;
+                @PhoneControlRight.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnPhoneControlRight;
             }
             m_Wrapper.m_CharacterControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -282,6 +332,12 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @PickupObj.started += instance.OnPickupObj;
                 @PickupObj.performed += instance.OnPickupObj;
                 @PickupObj.canceled += instance.OnPickupObj;
+                @PhoneControlLeft.started += instance.OnPhoneControlLeft;
+                @PhoneControlLeft.performed += instance.OnPhoneControlLeft;
+                @PhoneControlLeft.canceled += instance.OnPhoneControlLeft;
+                @PhoneControlRight.started += instance.OnPhoneControlRight;
+                @PhoneControlRight.performed += instance.OnPhoneControlRight;
+                @PhoneControlRight.canceled += instance.OnPhoneControlRight;
             }
         }
     }
@@ -292,5 +348,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         void OnRun(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnPickupObj(InputAction.CallbackContext context);
+        void OnPhoneControlLeft(InputAction.CallbackContext context);
+        void OnPhoneControlRight(InputAction.CallbackContext context);
     }
 }

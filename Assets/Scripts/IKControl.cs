@@ -15,8 +15,10 @@ public class IKControl : MonoBehaviour
     public Transform rightHandObj = null;
     public Transform lookObj = null;
     public float weightValue = 0f;
-    public float actionSpeed = 0.01f;
+    public float actionDuration = 1f;
 
+    [HideInInspector]
+    public float time;
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -25,15 +27,17 @@ public class IKControl : MonoBehaviour
 	{
         if (ikActive)
 		{
-            weightValue = Mathf.Lerp(weightValue, 1f, actionSpeed );
-            
+            weightValue = Mathf.Lerp(weightValue, 1f, time/actionDuration);
+            time += Time.deltaTime;
 		}
         if(!ikActive)
 		{
-            weightValue = Mathf.Lerp(weightValue, 0f, actionSpeed );
-            
+            weightValue = Mathf.Lerp(weightValue, 0f, time/actionDuration);
+            time += Time.deltaTime;
         }
         weightValue = Mathf.Clamp(weightValue, 0f, 1f);
+
+        
     }
 	//a callback for calculating IK
 	void OnAnimatorIK()
@@ -46,11 +50,11 @@ public class IKControl : MonoBehaviour
             {
 
                 // Set the look target position, if one has been assigned
-                if (lookObj != null)
-                {
-                    animator.SetLookAtWeight(weightValue);
-                    animator.SetLookAtPosition(lookObj.position);
-                }
+                //if (lookObj != null)
+                //{
+                    //animator.SetLookAtWeight(weightValue);
+                    //animator.SetLookAtPosition(lookObj.position);
+                //}
 
                 // Set the right hand target position and rotation, if one has been assigned
                 if (rightHandObj != null)

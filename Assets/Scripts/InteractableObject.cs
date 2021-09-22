@@ -14,7 +14,7 @@ public class InteractableObject : MonoBehaviour
 	public bool playerInRange;
 	public bool pickedUp;
 
-
+	
 
 	#region Private Variables
 

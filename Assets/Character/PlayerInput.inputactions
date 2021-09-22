@@ -36,6 +36,22 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "PhoneControlLeft",
+                    "type": "Button",
+                    "id": "5bdcb03d-cffe-42e3-b228-0d822a0289da",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "PhoneControlRight",
+                    "type": "Button",
+                    "id": "6181da2c-7c8f-40c6-9e98-044dbf8fb3d0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -157,6 +173,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "PickupObj",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "86209b54-100d-4323-8da3-765fa350d3e6",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PhoneControlLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f50348fe-dc6b-418b-8457-ecbaf70193b1",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PhoneControlRight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

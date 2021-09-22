@@ -12,10 +12,6 @@ public class CharacterMovement : MonoBehaviour
 {
     public float speed = 50f;
     public float rotSensitivity = 10f;
-
-
-
-
     Animator animator;
     int isWalkingHash;
     int isRunningHash;
@@ -40,9 +36,17 @@ public class CharacterMovement : MonoBehaviour
         playerInput.CharacterControls.Run.performed += ctx => runPressed = ctx.ReadValueAsButton();
         playerInput.CharacterControls.Look.performed += ctx => lookValues = ctx.ReadValue<Vector2>();
 
-        //By default on launch pickupobj is disabled
+        playerInput.CharacterControls.PickupObj.performed += ctx => CheckForPickup();
+        //By default  pickupobj is disabled on launch
         playerInput.CharacterControls.PickupObj.Disable();
-	}
+        
+        playerInput.CharacterControls.PhoneControlLeft.performed += ctx => CheckForPhoneControl(playerInput.CharacterControls.PhoneControlLeft);
+        playerInput.CharacterControls.PhoneControlRight.performed += ctx => CheckForPhoneControl(playerInput.CharacterControls.PhoneControlRight);
+        //By default Phone controls are also disabled on launch
+        playerInput.CharacterControls.PhoneControlLeft.Disable();
+        playerInput.CharacterControls.PhoneControlRight.Disable();
+
+    }
 	// Start is called before the first frame update
 	void Start()
     {
@@ -168,5 +172,48 @@ public class CharacterMovement : MonoBehaviour
     public void DisablePickupAction()
 	{
         playerInput.CharacterControls.PickupObj.Disable();
+	}
+
+    public void DisablePhoneControls()
+	{
+        playerInput.CharacterControls.PhoneControlLeft.Disable();
+        playerInput.CharacterControls.PhoneControlRight.Disable();
+	}
+
+    public void EnablePhoneControls()
+	{
+        playerInput.CharacterControls.PhoneControlLeft.Enable();
+        playerInput.CharacterControls.PhoneControlRight.Enable();
+	}
+    public void CheckForPickup()
+	{
+        if(playerInput.CharacterControls.PickupObj.enabled)
+		{
+            if(GetComponent<CharacaterInteractions>().ObjectToHold)
+			{
+                GetComponent<CharacaterInteractions>().GrabObject();
+			}
+		}
+	}
+
+    public void CheckForPhoneControl(InputAction action)
+	{
+        if(action.enabled)
+		{
+            if(GetComponent<CharacaterInteractions>().ObjectToHold)
+			{
+                if(action.name.Contains("Left"))
+				{
+                    //scroll to left
+                    GetComponent<CharacaterInteractions>().ScrollLeftProcedure();
+
+                }
+                else
+				{
+                    //scroll to right
+                    GetComponent<CharacaterInteractions>().ScrollRightProcedure();
+				}
+			}
+		}
 	}
 }
