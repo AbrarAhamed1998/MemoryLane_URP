@@ -42,21 +42,22 @@ public class PictureScroll : MonoBehaviour
     public void ScrollToItem(int index)
 	{
         index = Mathf.Clamp(index, 0, pics.Count - 1);
-        float normalizedScrollValue = (1f / pics.Count) * index;
-       
+        currentIndex = index;
+        float normalizedScrollValue = (pics[index].GetComponent<RectTransform>().sizeDelta.x / pictureScrollRect.content.sizeDelta.x) * index;
+        //Debug.Log(index +" , " +normalizedScrollValue);
         pictureScrollRect.DOHorizontalNormalizedPos(normalizedScrollValue, 0.5f);
 	}
 
 
     public void ScrollLeft()
 	{
-        ScrollToItem(currentIndex--);
-        Debug.Log("Scrolled Left");
+        ScrollToItem(--currentIndex);
+        //Debug.Log("Scrolled Left");
 	}
 
     public void ScrollRight()
 	{
-        ScrollToItem(currentIndex++);
-        Debug.Log("Scrolled Right");
+        ScrollToItem(++currentIndex);
+        //Debug.Log("Scrolled Right");
 	}
 }
