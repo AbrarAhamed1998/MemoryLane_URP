@@ -12,6 +12,7 @@ public class CharacterMovement : MonoBehaviour
 {
     public float speed = 50f;
     public float rotSensitivity = 10f;
+    public float pushPower;
     Animator animator;
     int isWalkingHash;
     int isRunningHash;
@@ -213,6 +214,22 @@ public class CharacterMovement : MonoBehaviour
                     //scroll to right
                     GetComponent<CharacaterInteractions>().ScrollRightProcedure();
 				}
+			}
+		}
+	}
+    
+
+	private void OnControllerColliderHit(ControllerColliderHit hit)
+	{
+        Vector3 force;
+
+        if (hit.gameObject.tag.Contains("Door"))
+		{
+            if(hit.collider.attachedRigidbody != null && !hit.collider.attachedRigidbody.isKinematic)
+			{
+                force = hit.controller.velocity.magnitude * hit.normal * -1;
+
+                hit.collider.attachedRigidbody.AddForceAtPosition(force, hit.point);
 			}
 		}
 	}
