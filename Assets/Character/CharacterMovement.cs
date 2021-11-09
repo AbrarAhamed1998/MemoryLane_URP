@@ -121,16 +121,16 @@ public class CharacterMovement : MonoBehaviour
         if(runPressed && !isRunning)
 		{
             animator.SetBool(isRunningHash, true);
-            speed += 0.1f;
+            speed += 20f;
         }
         if(!runPressed && isRunning)
 		{
             animator.SetBool(isRunningHash, false);
-            speed -= 0.1f;
+            speed -= 20f;
         }
         movementControllerValues.x = movementAnimValues.x;
         movementControllerValues.z = movementAnimValues.y;
-        movementControllerValues = (transform.right * movementControllerValues.x + transform.forward * movementControllerValues.z) * speed;
+        movementControllerValues = (transform.right * movementControllerValues.x + transform.forward * movementControllerValues.z) * speed * Time.deltaTime;
         HandleGravity();
         charController.Move(movementControllerValues);
 

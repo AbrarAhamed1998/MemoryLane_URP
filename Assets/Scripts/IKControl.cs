@@ -12,8 +12,8 @@ public class IKControl : MonoBehaviour
     protected Animator animator;
 
     public bool ikActive = false;
-    public Transform rightHandObj = null;
-    public Transform lookObj = null;
+    Transform rightHandObj = null;
+    Transform lookObj = null;
     public float weightValue = 0f;
     public float actionDuration = 1f;
 
@@ -73,16 +73,26 @@ public class IKControl : MonoBehaviour
                 animator.SetIKPositionWeight(AvatarIKGoal.RightHand, weightValue);
                 animator.SetIKRotationWeight(AvatarIKGoal.RightHand, weightValue);
                 animator.SetLookAtWeight(weightValue);
-                animator.SetIKPosition(AvatarIKGoal.RightHand, rightHandObj.position);
-                animator.SetIKRotation(AvatarIKGoal.RightHand, rightHandObj.rotation);
+                if(rightHandObj != null)
+				{
+                    animator.SetIKPosition(AvatarIKGoal.RightHand, rightHandObj.position);
+                    animator.SetIKRotation(AvatarIKGoal.RightHand, rightHandObj.rotation);
+                }
+                
             }
         }
     }
 
-    public void TweenWeightValuesTo(float targetValue)
+    public void TweenWeightValuesTo(float targetValue) //Add a tweener here for float values
     {
        
         
     }
+
+    public void AssignRightHandAndLookAtObj(Transform objTransform)
+	{
+        rightHandObj = objTransform;
+        lookObj = objTransform;
+	}
     
 }

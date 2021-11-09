@@ -43,7 +43,7 @@ public class InteractableObject : MonoBehaviour
 	{
 		if(other.tag == "Player")
 		{
-            other.GetComponent<CharacaterInteractions>().ObjectToHold = transform.parent.gameObject;
+            other.GetComponent<CharacaterInteractions>().ObjectToHold = transform.parent.gameObject; //Parent of Trigger Collider Sphere
 			//Enable popup and listen for button press
 			playerInRange = true;
 			DefineScreenLimits(PromptPopup.sizeDelta.x, PromptPopup.sizeDelta.y);

@@ -66,6 +66,7 @@ public class CharacaterInteractions : MonoBehaviour
         hold
             .AppendCallback(()=>
             {
+                GetComponent<IKControl>().AssignRightHandAndLookAtObj(objectToHold);
                 GetComponent<IKControl>().time = 0f;
                 GetComponent<IKControl>().ikActive = true;
                 //yield return new WaitForSeconds(1f);
