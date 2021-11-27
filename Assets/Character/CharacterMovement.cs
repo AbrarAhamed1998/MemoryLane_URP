@@ -7,12 +7,15 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
+using Photon.Pun;
 
-public class CharacterMovement : MonoBehaviour
+public class CharacterMovement : MonoBehaviourPun
 {
+    
     public float speed = 50f;
     public float rotSensitivity = 10f;
     public float pushPower;
+    
     Animator animator;
     int isWalkingHash;
     int isRunningHash;
@@ -46,6 +49,7 @@ public class CharacterMovement : MonoBehaviour
         //By default Phone controls are also disabled on launch
         playerInput.CharacterControls.PhoneControlLeft.Disable();
         playerInput.CharacterControls.PhoneControlRight.Disable();
+        
 
     }
 	// Start is called before the first frame update
@@ -57,6 +61,8 @@ public class CharacterMovement : MonoBehaviour
         isRunningHash = Animator.StringToHash("isRunning");
         velocityXHash = Animator.StringToHash("VelocityX");
         velocityZHash = Animator.StringToHash("VelocityZ");
+
+        
     }
 
 	private void OnEnable()
@@ -71,6 +77,10 @@ public class CharacterMovement : MonoBehaviour
 	// Update is called once per frame
 	void Update()
     {
+        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+        {
+            return;
+        }
         HandleMovement();
         //HandleRotation();
         HandleCameraMovement();
@@ -188,13 +198,17 @@ public class CharacterMovement : MonoBehaviour
 	}
     public void CheckForPickup()
 	{
-        if(playerInput.CharacterControls.PickupObj.enabled)
+        if(photonView.IsMine)
 		{
-            if(GetComponent<CharacaterInteractions>().ObjectToHold)
-			{
-                GetComponent<CharacaterInteractions>().GrabObject();
-			}
-		}
+            if (playerInput.CharacterControls.PickupObj.enabled)
+            {
+                if (GetComponent<CharacaterInteractions>().ObjectToHold)
+                {
+                    GetComponent<CharacaterInteractions>().GrabObject();
+                }
+            }
+        }
+        
 	}
 
     public void CheckForPhoneControl(InputAction action)
@@ -233,4 +247,6 @@ public class CharacterMovement : MonoBehaviour
 			}
 		}
 	}
+
+    
 }

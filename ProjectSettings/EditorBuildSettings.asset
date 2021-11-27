@@ -6,7 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: d1c3109bdb54ad54c8a2b2838528e640
+    path: Assets/Scenes/JoinRoom.unity
+    guid: 435dfe76c07d786438e54657e8837a28
+  - enabled: 1
+    path: Assets/Scenes/CollegeClasses.unity
+    guid: 4abfc40710915744bb5cb1bc3f0b95d2
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 7cc97031fa9fbd14295e0ad95d01db56, type: 2}
