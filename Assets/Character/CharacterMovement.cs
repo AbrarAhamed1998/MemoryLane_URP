@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
 using Photon.Pun;
+using DG.Tweening;
 
 public class CharacterMovement : MonoBehaviourPun
 {
@@ -125,6 +126,11 @@ public class CharacterMovement : MonoBehaviourPun
 		}*/
         movementAnimValues.x = Mathf.Clamp(movementAnimValues.x, -0.5f, 0.5f);
         movementAnimValues.y = Mathf.Clamp(movementAnimValues.y, -0.5f, 0.5f);
+
+        //Reference for Tweeening float value below
+        //DOTween.To(() => cameraController.desiredDistance, x => cameraController.desiredDistance = x, camZOffset, 1f).SetEase(Ease.InOutExpo))
+
+
         animator.SetFloat(velocityZHash, movementAnimValues.y);
         animator.SetFloat(velocityXHash, movementAnimValues.x);
 
@@ -157,7 +163,9 @@ public class CharacterMovement : MonoBehaviourPun
 
     void CatchMovement(InputAction.CallbackContext ctx)
 	{
-        movementAnimValues = ctx.ReadValue<Vector2>();
+        Vector2 maxmovemmentVals = ctx.ReadValue<Vector2>();
+        //movementAnimValues = ctx.ReadValue<Vector2>();
+        DOTween.To(() => movementAnimValues, x => movementAnimValues = x, maxmovemmentVals, 0.5f).SetEase(Ease.InOutExpo);
         movementPressed = movementAnimValues.x != 0f || movementAnimValues.y != 0f;
     }
 

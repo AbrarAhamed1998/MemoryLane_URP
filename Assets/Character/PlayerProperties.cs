@@ -11,6 +11,8 @@ public class PlayerProperties : MonoBehaviourPun
 
 	public Vector3 relativeCamPos;
 
+	public Camera myAssignedCamera;
+
 	private void Awake()
 	{
 		if(photonView.IsMine)
@@ -41,6 +43,8 @@ public class PlayerProperties : MonoBehaviourPun
 		{
 			transform.position = new Vector3(transform.position.x, transform.position.y + 3f, transform.position.z);
 		}
+		AssignMainCamera(); //This is to prevent 2 Main Cameras from spawning in the scene
+		
 	}
 
 	private void OnDisable()
@@ -50,12 +54,28 @@ public class PlayerProperties : MonoBehaviourPun
 
 	public void AssignMainCamera()
 	{
-		if (photonView.IsMine)
+		if(myAssignedCamera == null)
 		{
-			Camera.main.transform.parent = gameObject.transform;
-			Camera.main.transform.SetAsLastSibling();
-			Camera.main.transform.localPosition = relativeCamPos;
-			Camera.main.transform.localRotation = Quaternion.identity;
+			if (photonView.IsMine)
+			{
+				Camera.main.transform.parent = gameObject.transform;
+				Camera.main.transform.SetAsLastSibling();
+				Camera.main.transform.localPosition = relativeCamPos;
+				Camera.main.transform.localRotation = Quaternion.identity;
+				myAssignedCamera = Camera.main;
+			}
 		}
+		/*else
+		{
+			if(photonView.IsMine)
+			{
+				Camera.main.transform.parent = gameObject.transform;
+				Camera.main.transform.SetAsLastSibling();
+				Camera.main.transform.localPosition = relativeCamPos;
+				Camera.main.transform.localRotation = Quaternion.identity;
+				Destroy(myAssignedCamera.gameObject); //Assuming the main camera at top of hirarchy is not used
+				///Please fucking improve this its stupid
+			}
+		}*/
 	}
 }

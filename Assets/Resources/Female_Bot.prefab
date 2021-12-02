@@ -128,23 +128,23 @@ MonoBehaviour:
   ShowParameterInspector: 1
   m_SynchronizeParameters:
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: isWalking
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: isRunning
   - Type: 1
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: VelocityX
   - Type: 1
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: VelocityZ
   m_SynchronizeLayers:
-  - SynchronizeType: 0
+  - SynchronizeType: 1
     LayerIndex: 0
-  - SynchronizeType: 0
+  - SynchronizeType: 1
     LayerIndex: 1
-  - SynchronizeType: 0
+  - SynchronizeType: 1
     LayerIndex: 2
 --- !u!114 &-3804924368114707087
 MonoBehaviour:
@@ -218,6 +218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myName: 
   relativeCamPos: {x: 0.021, y: 1.658, z: 0.202}
+  myAssignedCamera: {fileID: 0}
 --- !u!114 &8922400207937447078
 MonoBehaviour:
   m_ObjectHideFlags: 0

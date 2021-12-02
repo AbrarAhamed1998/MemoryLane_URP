@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Photon.Pun;
 
-public class InteractableObject : MonoBehaviour
+public class InteractableObject : MonoBehaviourPunCallbacks , IPunObservable
 {
 	
 	public RectTransform PromptPopup;
@@ -14,7 +15,7 @@ public class InteractableObject : MonoBehaviour
 	public bool playerInRange;
 	public bool pickedUp;
 
-	
+	public GameObject InteractableObj;
 
 	#region Private Variables
 
@@ -41,13 +42,13 @@ public class InteractableObject : MonoBehaviour
 	Vector2 tempVector;
 	private void OnTriggerEnter(Collider other)
 	{
-		if(other.tag == "Player")
+		if(other.tag == "Player" && photonView.IsMine)
 		{
-            other.GetComponent<CharacaterInteractions>().ObjectToHold = transform.parent.gameObject; //Parent of Trigger Collider Sphere
+            other.GetComponent<CharacaterInteractions>().ObjectToHold = InteractableObj; //Parent of Trigger Collider Sphere
 			//Enable popup and listen for button press
 			playerInRange = true;
 			DefineScreenLimits(PromptPopup.sizeDelta.x, PromptPopup.sizeDelta.y);
-			tempVector = Camera.main.WorldToScreenPoint(transform.parent.position);
+			tempVector = Camera.main.WorldToScreenPoint(InteractableObj.transform.position);
 			tempVector = new Vector2(Mathf.Clamp(tempVector.x, screenLowerLimit.x, screenUpperLimit.x), Mathf.Clamp(tempVector.y, screenLowerLimit.y, screenUpperLimit.y));
 			PromptPopup.anchoredPosition = tempVector;
 			PromptPopup.gameObject.SetActive(true);
@@ -57,7 +58,7 @@ public class InteractableObject : MonoBehaviour
 
 	private void OnTriggerExit(Collider other)
 	{
-		if (other.tag == "Player")
+		if (other.tag == "Player" && photonView.IsMine)
 		{
 			other.GetComponent<CharacaterInteractions>().ObjectToHold = null;
 			//Disable popup and remove listener for button press
@@ -76,5 +77,10 @@ public class InteractableObject : MonoBehaviour
 	{
 		screenUpperLimit = new Vector2(Screen.width - width, Screen.height - height);
 		screenLowerLimit = new Vector2(width/2, height); //anchor is at the bottom middle
+	}
+
+	public void OnPhotonSerializeView(PhotonStream photonstream, PhotonMessageInfo info)
+	{
+		
 	}
 }
