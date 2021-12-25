@@ -27,13 +27,15 @@ public class IKControl : MonoBehaviour
 	{
         if (ikActive)
 		{
-            weightValue = Mathf.Lerp(weightValue, 1f, time/actionDuration);
             time += Time.deltaTime;
+            weightValue = Mathf.Lerp(weightValue, 1f, time/actionDuration);
+            
 		}
         if(!ikActive)
 		{
-            weightValue = Mathf.Lerp(weightValue, 0f, time/actionDuration);
             time += Time.deltaTime;
+            weightValue = Mathf.Lerp(weightValue, 0f, time/actionDuration);
+            
         }
         weightValue = Mathf.Clamp(weightValue, 0f, 1f);
 

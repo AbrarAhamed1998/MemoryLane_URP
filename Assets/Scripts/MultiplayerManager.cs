@@ -105,6 +105,7 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks
 		if(PhotonNetwork.NickName.Contains("Maddy") || PhotonNetwork.NickName.Contains("Harshita"))
 		{
 			PhotonNetwork.Instantiate(this.femalePlayerPrefab.name, spawnLocation.position, Quaternion.identity, 0);
+			
 		}
 		else
 		{

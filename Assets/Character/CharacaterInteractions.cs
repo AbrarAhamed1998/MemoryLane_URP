@@ -25,7 +25,7 @@ public class CharacaterInteractions : MonoBehaviour
 
     #region Private Variables
     float time;
-    InteractableObject currentInteractable;
+    InteractableSphere currentInteractable;
     PictureScroll currentPicScroll;
 	#endregion
 	// Start is called before the first frame update
@@ -66,7 +66,7 @@ public class CharacaterInteractions : MonoBehaviour
         hold
             .AppendCallback(()=>
             {
-                GetComponent<IKControl>().AssignRightHandAndLookAtObj(objectToHold);
+                GetComponent<IKControl>().AssignRightHandAndLookAtObj(objectToHold.GetComponent<InteractableObj>().relativeInteractableSphere.transform); //passing default pos for smooth transition
                 GetComponent<IKControl>().time = 0f;
                 GetComponent<IKControl>().ikActive = true;
                 //yield return new WaitForSeconds(1f);
@@ -88,12 +88,15 @@ public class CharacaterInteractions : MonoBehaviour
 
 
 
-                ObjectToHold.transform.GetChild(2).GetComponent<SphereCollider>().enabled = false;
-                currentInteractable = ObjectToHold.transform.GetChild(2).GetComponent<InteractableObject>();
+                //ObjectToHold.transform.GetChild(2).GetComponent<SphereCollider>().enabled = false;
+                currentInteractable = ObjectToHold.GetComponent<InteractableObj>().relativeInteractableSphere;
+                //currentInteractable.GetComponent<SphereCollider>().enabled = false;
                 currentInteractable.playerInRange = false;
                 currentInteractable.pickedUp = true;
 
                 currentInteractable.PromptPopup.gameObject.SetActive(false);
+
+                ObjectToHold.GetComponent<InteractableObj>().OnPickupAction();
 
                 GetComponent<CharacterMovement>().EnablePhoneControls();
 
@@ -109,6 +112,12 @@ public class CharacaterInteractions : MonoBehaviour
 
         
 	}
+
+    void IKPlaceBack()
+	{
+
+	}
+
 
     public void PressButtonAction(Transform target)
 	{

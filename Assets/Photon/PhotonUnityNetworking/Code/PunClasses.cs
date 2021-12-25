@@ -890,6 +890,25 @@ namespace Photon.Pun
             return instance;
         }
 
+        /// <summary>
+        /// Register prefabs to be network instantiated that are not located in a Resources folder.
+        /// </summary>
+        /// <param name="prefabID">String identifier for the networked object.</param>
+        /// <param name="prefab">The prefab to be instantiated.</param>
+        public void RegisterPrefab(string prefabID, GameObject prefab)
+        {
+            if (!this.ResourceCache.ContainsKey(prefabID))
+            {
+                ResourceCache.Add(prefabID, prefab);
+            }
+            else
+            {
+                Debug.LogError($"A prefab was already registered with the key '{prefabID}' make sure you use a unique Key for each prefab or not registered multiple times.");
+            }
+        }
+
+
+
         /// <summary>Simply destroys a GameObject.</summary>
         /// <param name="gameObject">The GameObject to get rid of.</param>
         public void Destroy(GameObject gameObject)
