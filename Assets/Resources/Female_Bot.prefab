@@ -234,6 +234,7 @@ MonoBehaviour:
   ikActive: 0
   weightValue: 0
   actionDuration: 50
+  operationType: 0
   time: 0
 --- !u!1001 &9166790940255836711
 PrefabInstance:

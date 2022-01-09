@@ -28,7 +28,8 @@ public class InteractableSphere : MonoBehaviourPunCallbacks , IPunObservable
 	// Start is called before the first frame update
 	void Start()
     {
-        
+		defaultPosition = InteractableObj.transform.position;
+		defaultRotation = InteractableObj.transform.rotation;
     }
 
     // Update is called once per frame
@@ -71,6 +72,17 @@ public class InteractableSphere : MonoBehaviourPunCallbacks , IPunObservable
 					if(other.GetComponent<CharacaterInteractions>().ObjectToHold == InteractableObj)
 					{
 						//option to place back held object
+						other.GetComponent<CharacaterInteractions>().ObjectToHold = InteractableObj; //Parent of Trigger Collider Sphere
+																									 //Enable popup and listen for button press
+						playerInRange = true;
+						DefineScreenLimits(PromptPopup.sizeDelta.x, PromptPopup.sizeDelta.y);
+						tempVector = Camera.main.WorldToScreenPoint(InteractableObj.transform.position);
+						tempVector = new Vector2(Mathf.Clamp(tempVector.x, screenLowerLimit.x, screenUpperLimit.x), Mathf.Clamp(tempVector.y, screenLowerLimit.y, screenUpperLimit.y));
+						PromptPopup.anchoredPosition = tempVector;
+						//Prompt intialize to pick up obj
+						DefinePrompt("E", "Place Back");
+						PromptPopup.gameObject.SetActive(true);
+						other.GetComponent<CharacterMovement>().EnablePickupAction();
 					}
 					else
 					{

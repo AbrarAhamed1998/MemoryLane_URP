@@ -50,6 +50,18 @@ public class CharacaterInteractions : MonoBehaviour
                 myAnimator.SetLayerWeight(1, 1f);
             }
         }
+        else
+		{
+            if (time < holdAnimDuration)
+            {
+                myAnimator.SetLayerWeight(1, Mathf.Lerp((float)GetComponent<Animator>().GetLayerWeight(1), 0f, time / holdAnimDuration));
+                time += Time.deltaTime;
+            }
+            else
+            {
+                myAnimator.SetLayerWeight(1, 0f);
+            }
+        }
         
     }
 
@@ -57,7 +69,10 @@ public class CharacaterInteractions : MonoBehaviour
 	{
         IKGrab(ObjectToHold.transform);
 	}
-
+    public void PlaceBackObj()
+	{
+        IKPlaceBack(ObjectToHold.transform); 
+	}
     void IKGrab(Transform objectToHold)
 	{
         
@@ -68,6 +83,7 @@ public class CharacaterInteractions : MonoBehaviour
             {
                 GetComponent<IKControl>().AssignRightHandAndLookAtObj(objectToHold.GetComponent<InteractableObj>().relativeInteractableSphere.transform); //passing default pos for smooth transition
                 GetComponent<IKControl>().time = 0f;
+                GetComponent<IKControl>().operationType = 0; //grab object operation
                 GetComponent<IKControl>().ikActive = true;
                 //yield return new WaitForSeconds(1f);
                 
@@ -113,10 +129,54 @@ public class CharacaterInteractions : MonoBehaviour
         
 	}
 
-    void IKPlaceBack()
-	{
 
-	}
+    void IKPlaceBack(Transform objectToPlace)
+	{
+        Sequence hold = DOTween.Sequence();
+        hold
+            .AppendCallback(() =>
+            {
+                GetComponent<IKControl>().AssignRightHandAndLookAtObj(objectToPlace.GetComponent<InteractableObj>().relativeInteractableSphere.transform); //passing default pos for smooth transition
+                GetComponent<IKControl>().time = 0f;
+                GetComponent<IKControl>().operationType = 0; 
+                GetComponent<IKControl>().ikActive = true;
+                //yield return new WaitForSeconds(1f);
+
+            })
+            .AppendInterval(0.5f)
+            .AppendCallback(() => {
+                objectToPlace.SetParent(objectToPlace.GetComponent<InteractableObj>().relativeInteractableSphere.transform); //place back at sphere center
+                objectToPlace.localPosition = Vector3.zero;
+                objectToPlace.localRotation = Quaternion.identity;
+            })
+            //.Append(objectToHold.DOLocalMove(Vector3.zero, 0.2f).SetEase(Ease.InOutExpo))
+            //.Join(objectToHold.DOLocalRotateQuaternion(Quaternion.identity, 0.2f).SetEase(Ease.InOutExpo))
+            .AppendCallback(() =>
+            {
+                GetComponent<IKControl>().time = 0f;
+                GetComponent<IKControl>().ikActive = false;
+                //Assign object to right hand hierarchy of this character and place into pose.
+
+
+
+                //ObjectToHold.transform.GetChild(2).GetComponent<SphereCollider>().enabled = false;
+                currentInteractable = ObjectToHold.GetComponent<InteractableObj>().relativeInteractableSphere;
+                //currentInteractable.GetComponent<SphereCollider>().enabled = false;
+                currentInteractable.playerInRange = true;
+                currentInteractable.pickedUp = false;
+
+                currentInteractable.PromptPopup.gameObject.SetActive(false);
+
+                ObjectToHold.GetComponent<InteractableObj>().OnPlaceBack();
+
+                //GetComponent<CharacterMovement>().EnablePhoneControls();
+
+                //SetAnimation Weight (Try Lerping this)
+                time = 0f;
+                holdObj = false;
+            })
+            .Play();
+    }
 
 
     public void PressButtonAction(Transform target)

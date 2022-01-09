@@ -144,15 +144,23 @@ public class CharacterMovement : MonoBehaviourPun
             animator.SetBool(isRunningHash, false);
             speed -= 20f;
         }
-        movementControllerValues.x = movementAnimValues.x;
-        movementControllerValues.z = movementAnimValues.y;
-        movementControllerValues = (transform.right * movementControllerValues.x + transform.forward * movementControllerValues.z) * speed * Time.deltaTime;
+        //movementControllerValues.x = movementAnimValues.x;
+        //movementControllerValues.z = movementAnimValues.y;
+        //movementControllerValues = (transform.right * movementControllerValues.x + transform.forward * movementControllerValues.z) * speed * Time.deltaTime;
+        //HandleGravity();
+        //charController.Move(movementControllerValues);
+
+    }
+
+	private void OnAnimatorMove()
+	{
+        movementControllerValues = animator.deltaPosition;
         HandleGravity();
         charController.Move(movementControllerValues);
 
     }
 
-    void HandleCameraMovement()
+	void HandleCameraMovement()
 	{
         rotation.y += lookValues.x;
         rotation.x += -lookValues.y;
@@ -212,8 +220,17 @@ public class CharacterMovement : MonoBehaviourPun
             {
                 if (GetComponent<CharacaterInteractions>().ObjectToHold)
                 {
-                    GetComponent<CharacaterInteractions>().GrabObject();
+                    if(GetComponent<CharacaterInteractions>().ObjectToHold.GetComponent<InteractableObj>().relativeInteractableSphere.pickedUp)
+					{
+                        GetComponent<CharacaterInteractions>().PlaceBackObj();
+                    }
+                    else
+					{
+                        GetComponent<CharacaterInteractions>().GrabObject();
+                    }
+                    
                 }
+                
             }
         }
         
