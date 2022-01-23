@@ -60,24 +60,6 @@ Transform:
   m_Father: {fileID: 7386843473835206127}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: -43.233, y: 0.182, z: 181.114}
---- !u!114 &4803170883515633128
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8167441972497216338}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03ca45bb53dc94f478358a1b6475653d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ChainLength: 2
-  Target: {fileID: 0}
-  Pole: {fileID: 0}
-  Iterations: 10
-  Delta: 0.001
-  SnapBackStrength: 1
 --- !u!143 &7896563473523549702
 CharacterController:
   m_ObjectHideFlags: 0
@@ -187,8 +169,14 @@ MonoBehaviour:
   myAnimator: {fileID: 0}
   Thumb_R: {fileID: 8968902337697724783}
   Thumb_target: {fileID: 0}
+  rightHand: {fileID: 0}
+  leftHand: {fileID: 0}
+  rightHandIdleRot: {x: 0, y: 0, z: 0, w: 0}
+  leftHandIdleRot: {x: 0, y: 0, z: 0, w: 0}
   holdObj: 0
   holdAnimDuration: 50
+  clutchHandle: 0
+  clutchHandleDuration: 0
 --- !u!114 &3728772706799014026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,8 +222,55 @@ MonoBehaviour:
   ikActive: 0
   weightValue: 0
   actionDuration: 50
-  operationType: 0
+  doorHandleTransform: {fileID: 0}
+  handToOpenDoor: 0
+  currentikRot: {x: 0, y: 0, z: 0, w: 0}
+  operationType: 50
   time: 0
+--- !u!65 &4810013276899819199
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4708437539924300779}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.10327547, y: 0.056785773, z: 0.065453134}
+  m_Center: {x: 0.008473299, y: -0.0023195439, z: -0.0011516946}
+--- !u!65 &7109692310982336352
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6528348688169957158}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.103557274, y: 0.056785773, z: 0.065453134}
+  m_Center: {x: 0.0016934684, y: -0.0023195439, z: -0.0011516946}
+--- !u!114 &4803170883515633128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8167441972497216338}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03ca45bb53dc94f478358a1b6475653d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChainLength: 2
+  Target: {fileID: 0}
+  Pole: {fileID: 0}
+  Iterations: 10
+  Delta: 0.001
+  SnapBackStrength: 1
 --- !u!1001 &9166790940255836711
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -316,6 +351,16 @@ PrefabInstance:
 --- !u!1 &8356308279214401398 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 303a585c2438a9a4988a0f836523d55a, type: 3}
+  m_PrefabInstance: {fileID: 9166790940255836711}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4708437539924300779 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -4728426434207774260, guid: 303a585c2438a9a4988a0f836523d55a, type: 3}
+  m_PrefabInstance: {fileID: 9166790940255836711}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6528348688169957158 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2715566404302941441, guid: 303a585c2438a9a4988a0f836523d55a, type: 3}
   m_PrefabInstance: {fileID: 9166790940255836711}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &7386843473835206127 stripped

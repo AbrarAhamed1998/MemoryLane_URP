@@ -17,7 +17,10 @@ public class IKControl : MonoBehaviour
     public float weightValue = 0f;
     public float actionDuration = 1f;
     public Transform doorHandleTransform;
+    public Vector3 offset;
     public AvatarIKGoal handToOpenDoor;
+
+    public Quaternion currentikRot;
     /// <summary>
     /// Operation type defines the type of IK operation to take place:
     /// <list type="bullet">
@@ -80,7 +83,7 @@ public class IKControl : MonoBehaviour
                         animator.SetIKPositionWeight(handToOpenDoor, weightValue);
                         animator.SetIKRotationWeight(handToOpenDoor, weightValue);
                         animator.SetIKPosition(handToOpenDoor, doorHandleTransform.position);
-                        animator.SetIKRotation(handToOpenDoor, doorHandleTransform.rotation);
+                        animator.SetIKRotation(handToOpenDoor, currentikRot);
                         break;
                 }
                 // Set the look target position, if one has been assigned
@@ -101,14 +104,27 @@ public class IKControl : MonoBehaviour
             //if the IK is not active, set the position and rotation of the hand and head back to the original position
             else
             {
-                animator.SetIKPositionWeight(AvatarIKGoal.RightHand, weightValue);
-                animator.SetIKRotationWeight(AvatarIKGoal.RightHand, weightValue);
-                animator.SetLookAtWeight(weightValue);
-                if(rightHandObj != null)
+                switch(operationType)
 				{
-                    animator.SetIKPosition(AvatarIKGoal.RightHand, rightHandObj.position);
-                    animator.SetIKRotation(AvatarIKGoal.RightHand, rightHandObj.rotation);
-                }
+                    case 0:
+                        animator.SetIKPositionWeight(AvatarIKGoal.RightHand, weightValue);
+                        animator.SetIKRotationWeight(AvatarIKGoal.RightHand, weightValue);
+                        animator.SetLookAtWeight(weightValue);
+                        if (rightHandObj != null)
+                        {
+                            animator.SetIKPosition(AvatarIKGoal.RightHand, rightHandObj.position);
+                            animator.SetIKRotation(AvatarIKGoal.RightHand, rightHandObj.rotation);
+                        }
+                        break;
+                    case 1:
+                        animator.SetIKPositionWeight(handToOpenDoor, weightValue);
+                        animator.SetIKRotationWeight(handToOpenDoor, weightValue);
+                        animator.SetIKPosition(handToOpenDoor, doorHandleTransform.position);
+                        animator.SetIKRotation(handToOpenDoor, currentikRot);
+                        animator.SetLookAtWeight(weightValue);
+                        break;
+				}
+                
                 
             }
         }
@@ -124,6 +140,13 @@ public class IKControl : MonoBehaviour
 	{
         rightHandObj = objTransform;
         lookObj = objTransform;
+	}
+
+    public void AssignDoorHandleAndHandTransform(Transform doorhandle,Vector3 offset, AvatarIKGoal hand, Quaternion ikrot)
+	{
+        handToOpenDoor = hand;
+        doorHandleTransform = doorhandle;
+        currentikRot = ikrot;
 	}
     
 }

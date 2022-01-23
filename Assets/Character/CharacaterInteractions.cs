@@ -3,6 +3,7 @@ using DitzelGames.FastIK;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR;
 
 public class CharacaterInteractions : MonoBehaviour
 {
@@ -13,9 +14,16 @@ public class CharacaterInteractions : MonoBehaviour
     public Animator myAnimator;
     public Transform Thumb_R;
     public Transform Thumb_target;
+    public Transform rightHand;
+    public Transform leftHand;
+    public Quaternion rightHandIdleRot;
+    public Quaternion leftHandIdleRot;
     public bool holdObj;
 
     public float holdAnimDuration = 1;
+
+    public bool clutchHandle;
+    public float clutchHandleDuration;
 	#endregion
 	#region Coroutine variables
 
@@ -33,6 +41,8 @@ public class CharacaterInteractions : MonoBehaviour
     {
         ikWait = new WaitUntil(() => GetComponent<IKControl>().ikActive = false);
         myAnimator = GetComponent<Animator>();
+        rightHandIdleRot = rightHand.transform.localRotation;
+        leftHandIdleRot = leftHand.transform.localRotation;
     }
 
     // Update is called once per frame
@@ -62,7 +72,32 @@ public class CharacaterInteractions : MonoBehaviour
                 myAnimator.SetLayerWeight(1, 0f);
             }
         }
-        
+
+        if (clutchHandle)
+        {
+            if (time < clutchHandleDuration)
+            {
+                myAnimator.SetLayerWeight(2, Mathf.Lerp((float)GetComponent<Animator>().GetLayerWeight(2), 1f, time / clutchHandleDuration));
+                time += Time.deltaTime;
+            }
+            else
+            {
+                myAnimator.SetLayerWeight(2, 1f);
+            }
+        }
+        else
+        {
+            if (time < holdAnimDuration)
+            {
+                myAnimator.SetLayerWeight(2, Mathf.Lerp((float)GetComponent<Animator>().GetLayerWeight(2), 0f, time / clutchHandleDuration));
+                time += Time.deltaTime;
+            }
+            else
+            {
+                myAnimator.SetLayerWeight(2, 0f);
+            }
+        }
+
     }
 
     public void GrabObject()
@@ -246,5 +281,25 @@ public class CharacaterInteractions : MonoBehaviour
 
     }
 
+    public float LeftArmDistanceFromTransform(Transform handle)
+	{
+        return Vector3.Distance(leftHand.position, handle.position);
+	}
+    public float RightArmDistanceFromTransform(Transform handle)
+	{
+        return Vector3.Distance(rightHand.position, handle.position);
+	}
 
+
+    public void ClutchHandle()
+	{
+        time = 0f;
+        clutchHandle = true;
+	}
+
+    public void UnClutchHandle()
+	{
+        time = 0f;
+        clutchHandle = false;
+	}
 }
