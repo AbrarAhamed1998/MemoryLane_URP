@@ -207,6 +207,8 @@ MonoBehaviour:
   myName: 
   relativeCamPos: {x: 0.021, y: 1.658, z: 0.202}
   myAssignedCamera: {fileID: 0}
+  Accessories:
+  - {fileID: 8414422626288267662}
 --- !u!114 &8922400207937447078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -345,6 +347,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d14a254ff7010ba4ca812991ff6fb774, type: 3}
+--- !u!1 &8414422626288267662 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1112556026119482489, guid: d14a254ff7010ba4ca812991ff6fb774, type: 3}
+  m_PrefabInstance: {fileID: 8914487350419627511}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9166790940255836711
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -13,6 +13,8 @@ public class PlayerProperties : MonoBehaviourPun
 
 	public Camera myAssignedCamera;
 
+	public List<GameObject> Accessories;
+
 	private void Awake()
 	{
 		if(photonView.IsMine)
